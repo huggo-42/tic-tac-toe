@@ -1,58 +1,79 @@
 # tic tac toe
 
-# make winning_positions a set / hashmap
-winning_positions = [
-        [1, 2, 3]
-        ,[1, 4, 7]
-        ,[1, 5, 9]
-        ,[3, 6, 9]
+import os
+from time import sleep
+
+print('Welcome to Tic Tac Toe!')
+print('This is how you play: ')
+print(' 7 | 8 | 9 \n-----------\n 4 | 5 | 6 \n-----------\n 1 | 2 | 3 ')
+print('Press the value corresponding to the position you want to place your mark')
+
+input('Press any key to start: ')
+
+os.system('clear')
+
+win_positions = [
+         [1, 2, 3]
+        ,[4, 5, 6]
         ,[7, 8, 9]
+
+        ,[1, 4, 7]
+        ,[2, 5, 8]
+        ,[3, 6, 9]
+
+        ,[1, 5, 9]
         ,[7, 5, 3]]
 
-# board = '   |   |   \n-----------\n   |   |   \n-----------\n   |   |   '
-# def showBoard(x_moves, y_moves):
+def showBoard(x_moves, o_moves, finalResult = False):
+    pos1 = 'X' if 1 in  x_moves else 'O' if 1 in o_moves else ' '
+    pos2 = 'X' if 2 in  x_moves else 'O' if 2 in o_moves else ' '
+    pos3 = 'X' if 3 in  x_moves else 'O' if 3 in o_moves else ' '
+    pos4 = 'X' if 4 in  x_moves else 'O' if 4 in o_moves else ' '
+    pos5 = 'X' if 5 in  x_moves else 'O' if 5 in o_moves else ' '
+    pos6 = 'X' if 6 in  x_moves else 'O' if 6 in o_moves else ' '
+    pos7 = 'X' if 7 in  x_moves else 'O' if 7 in o_moves else ' '
+    pos8 = 'X' if 8 in  x_moves else 'O' if 8 in o_moves else ' '
+    pos9 = 'X' if 9 in  x_moves else 'O' if 9 in o_moves else ' '
+
+    if not finalResult:
+        print('Current board              How to play\n {} | {} | {}                  7 | 8 | 9 \n-----------                -----------\n {} | {} | {}                  4 | 5 | 6 \n-----------                -----------\n {} | {} | {}                  1 | 2 | 3 '.format(pos7, pos8, pos9, pos4, pos5, pos6, pos1, pos2, pos3))
+    else:
+        print('Result\n {} | {} | {} \n-----------\n {} | {} | {} \n-----------\n {} | {} | {} '.format(pos7, pos8, pos9, pos4, pos5, pos6, pos1, pos2, pos3))
 
 x_moves = []
-y_moves = []
-i = 0
+o_moves = []
 
-while True:
+isXturn = True
+gameOn = True
+
+while gameOn:
+    showBoard(x_moves, o_moves)
+
     move = int(input('type your move: '))
 
-    # input 0 to debug
-    if move == 0:
-        print('x_moves: ', end='')
-        print(x_moves)
-        print('y_moves: ', end='')
-        print(y_moves)
-
-    if move in x_moves or move in y_moves:
-        print('this block is not empty')
+    if move in x_moves or move in o_moves:
+        print('Invalid move, try again')
         continue
 
-    print('debugging')
-    print('i: ', end='')
-    print(i)
-    if i % 2 == 0:
-        print('x move')
+    if isXturn:
         x_moves.append(move)
     else:
-        print('y move')
-        y_moves.append(move)
+        o_moves.append(move)
 
-    for winning_pos in winning_positions:
-        x = y = 0
-        for winning_num in winning_pos:
-            if winning_num in y_moves:
-                y += 1
-            if winning_num in x_moves:
+    os.system('clear')
+
+    for win_pos in win_positions:
+        x = o = 0
+        for win_num in win_pos:
+            if win_num in x_moves:
                 x += 1
-        if x == 3:
-            print('x won')
-            break
-        if y == 3:
-            print('y won')
-            break
+            if win_num in o_moves:
+                o += 1
+        if x == 3 or o == 3:
+            print('\033[32m{} wins!\033[m'.format('X' if x == 3 else 'O'))
+            showBoard(x_moves, o_moves, True)
+            input('Press any key to end the game: ')
+            gameOn = False
 
-    
-    i += 1
+    isXturn = not isXturn
+
